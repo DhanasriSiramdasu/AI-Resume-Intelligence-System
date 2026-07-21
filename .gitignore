@@ -1,0 +1,23 @@
+# Python virtual environment
+backend/venv/
+
+# Environment variables and API keys
+.env
+backend/.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE files
+.vscode/
+
+# Node modules
+frontend/node_modules/
+
+# Build files
+frontend/dist/
+frontend/build/
+
+# Temporary uploaded files
+temp_*.pdf
