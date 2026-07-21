@@ -3,6 +3,7 @@ from fastapi import UploadFile
 from fastapi import File
 import os
 from services.pdf_parser import extract_text_from_pdf
+from services.resume_parser import clean_text,parse_resume
 app=FastAPI()
 
 @app.post("/upload-resume")
@@ -16,8 +17,13 @@ async def upload_resume(
         file_content=await file.read()
         f.write(file_content)
     extracted_text=extract_text_from_pdf(file_path)
+    cleaned_text=clean_text(extracted_text)
+    structured_resume=parse_resume(cleaned_text)
     os.remove(file_path)
     return{
         "filename":file.filename,
-        "text":extracted_text
+        "raw_text":extracted_text,
+        "cleaned_text":cleaned_text,
+        "structured_resume":structured_resume
     }
+
