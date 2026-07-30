@@ -4,6 +4,7 @@ from fastapi import File
 import os
 from services.pdf_parser import extract_text_from_pdf
 from services.resume_parser import clean_text,parse_resume
+from services.skill_extractor import extract_detected_skills
 app=FastAPI()
 
 @app.post("/upload-resume")
@@ -24,6 +25,37 @@ async def upload_resume(
         "filename":file.filename,
         "raw_text":extracted_text,
         "cleaned_text":cleaned_text,
-        "structured_resume":structured_resume
+        "structured_resume":structured_resume,
+        "detected_skills": extract_detected_skills(cleaned_text),
+        "skill_coverage": calculate_skill_coverage(
+            structured_resume.get("skills", []),
+            extract_detected_skills(cleaned_text)
+        )
     }
 
+def calculate_skill_coverage(
+    expected_skills,
+    detected_skills
+):
+    # Convert both lists to lowercase sets.
+    expected = set(
+        skill.lower()
+        for skill in expected_skills
+    )
+    detected = set(
+        skill.lower()
+        for skill in detected_skills
+    )
+    # Find matching skills.
+    matched = expected.intersection(
+        detected
+    )
+    # Avoid division by zero.
+    if len(expected) == 0:
+        return 0
+    # Calculate coverage percentage.
+    coverage = (
+        len(matched)
+        / len(expected)
+    ) * 100
+    return coverage
