@@ -6,6 +6,7 @@ from services.pdf_parser import extract_text_from_pdf
 from services.resume_parser import clean_text,parse_resume
 from services.skill_extractor import extract_detected_skills
 from services.skill_taxonony import normalize_skills
+from services.jd_parser import get_jd_normalised_skills
 app=FastAPI()
 
 @app.post("/upload-resume")
@@ -33,7 +34,8 @@ async def upload_resume(
             extract_detected_skills(cleaned_text),
             extract_detected_skills(cleaned_text)
         ),
-        "normalized skills:": normalize_skills(get_all_skills(extract_detected_skills(cleaned_text)))
+        "normalized skills:": normalize_skills(get_all_skills(extract_detected_skills(cleaned_text))),
+        "matched,missing,extra,match_score":calculate_match_score(normalize_skills(get_all_skills(extract_detected_skills(cleaned_text))), get_jd_normalised_skills())
     }
 
 def calculate_skill_coverage(
@@ -68,3 +70,14 @@ def get_all_skills(skills):
     for category in skills.values():
         all_skills.extend(category)
     return all_skills
+
+
+def calculate_match_score(resume_skills, jd_skills):
+    resume_set=set(resume_skills)
+    jd_set=set(jd_skills)
+    matched=list(resume_set & jd_set)
+    missing=list(jd_set - resume_set)
+    extra=list(resume_set - jd_set)
+    if(len(jd_set)==0):
+        return 0
+    return matched,missing,extra,round(len(set(resume_skills)& set(jd_skills))/len(jd_skills)*100,2)
