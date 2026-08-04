@@ -5,6 +5,7 @@ import os
 from services.pdf_parser import extract_text_from_pdf
 from services.resume_parser import clean_text,parse_resume
 from services.skill_extractor import extract_detected_skills
+from services.skill_taxonony import normalize_skills
 app=FastAPI()
 
 @app.post("/upload-resume")
@@ -27,10 +28,12 @@ async def upload_resume(
         "cleaned_text":cleaned_text,
         "structured_resume":structured_resume,
         "detected_skills": extract_detected_skills(cleaned_text),
+        "skills":get_all_skills(extract_detected_skills(cleaned_text)),
         "skill_coverage": calculate_skill_coverage(
-            structured_resume.get("skills", []),
+            extract_detected_skills(cleaned_text),
             extract_detected_skills(cleaned_text)
-        )
+        ),
+        "normalized skills:": normalize_skills(get_all_skills(extract_detected_skills(cleaned_text)))
     }
 
 def calculate_skill_coverage(
@@ -59,3 +62,9 @@ def calculate_skill_coverage(
         / len(expected)
     ) * 100
     return coverage
+
+def get_all_skills(skills):
+    all_skills=[]
+    for category in skills.values():
+        all_skills.extend(category)
+    return all_skills

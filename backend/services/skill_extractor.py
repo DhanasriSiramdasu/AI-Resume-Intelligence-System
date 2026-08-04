@@ -48,3 +48,5 @@ def extract_detected_skills(text:str):
             if re.search(pattern, text):
                 detected_skills[category].append(skill)
     return detected_skills
+
+
