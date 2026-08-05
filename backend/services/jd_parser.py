@@ -34,3 +34,6 @@ jd_normalised_skills=normalize_skills(jd_skills)
 
 def get_jd_normalised_skills():
     return jd_normalised_skills
+
+def get_jd_text():
+    return jd_text
