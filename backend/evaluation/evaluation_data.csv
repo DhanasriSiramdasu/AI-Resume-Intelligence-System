@@ -1,0 +1,20 @@
+resume_id,job_id,similarity,label
+R1,J1,0.91,1
+R1,J2,0.42,0
+R2,J1,0.84,1
+R2,J3,0.33,0
+R3,J2,0.76,1
+R3,J4,0.51,0
+
+
+\\ since the code for evaluating real data similarity and label is follows.....
+
+\\resume_embedding = get_embedding(resume_text)
+\\jd_embedding = get_embedding(jd_text)
+
+\\similarity = cosine_similarity(
+    \\[resume_embedding],
+    \\[jd_embedding]
+\\)[0][0]
+
+\\similarity = float(similarity)

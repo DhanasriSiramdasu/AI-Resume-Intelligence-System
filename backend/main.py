@@ -22,8 +22,9 @@ async def upload_resume(
     extracted_text=extract_text_from_pdf(file_path)
     cleaned_text=clean_text(extracted_text)
     structured_resume=parse_resume(cleaned_text)
-    detected_skills=extract_detected_skills(cleaned_text)
-    skills=get_all_skills(detected_skills)
+    resume_detected_skills=extract_detected_skills(cleaned_text)
+    jd_detected_skills=extract_detected_skills(get_jd_text())
+    skills=get_all_skills(resume_detected_skills)
     resume_normalized_skills=normalize_skills(skills)
     cosine_similarity=float(calculate_cosine_similarity(extracted_text,get_jd_text()))
     os.remove(file_path)
@@ -32,29 +33,30 @@ async def upload_resume(
         "raw_text":extracted_text,
         "cleaned_text":cleaned_text,
         "structured_resume":structured_resume,
-        "detected_skills": detected_skills,
+        "resume_detected_skills": resume_detected_skills,
+        "jd_detected_skills": jd_detected_skills,
         "skills":skills,
         "normalized_skills": resume_normalized_skills,
         "skill_coverage": calculate_skill_coverage(
-            detected_skills,
-            detected_skills
+            resume_detected_skills,
+            jd_detected_skills
         ),
         "matched,missing,extra,match_score":calculate_match_score(resume_normalized_skills, get_jd_normalised_skills()),
         "cosine_similarity":cosine_similarity
     }
 
 def calculate_skill_coverage(
-    expected_skills,
-    detected_skills
+    resume_detected_skills,
+    jd_detected_skills
 ):
     # Convert both lists to lowercase sets.
     expected = set(
         skill.lower()
-        for skill in expected_skills
+        for skill in jd_detected_skills
     )
     detected = set(
         skill.lower()
-        for skill in detected_skills
+        for skill in resume_detected_skills
     )
     # Find matching skills.
     matched = expected.intersection(
@@ -97,3 +99,4 @@ model=SentenceTransformer('all-MiniLM-L6-v2')
 
 def get_embedding(text):
     return model.encode(text)
+
