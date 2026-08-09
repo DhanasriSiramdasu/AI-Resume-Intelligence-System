@@ -40,6 +40,5 @@ results = {
     "f1_score": round(float(f1), 4)
 }
 
-
 with open("results.json", "w") as file:
     json.dump(results, file, indent=4)
