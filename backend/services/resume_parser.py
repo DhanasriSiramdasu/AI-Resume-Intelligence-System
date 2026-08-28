@@ -33,12 +33,15 @@ SECTION_NAMES={
         "honors"
     ]
 }
-def detect_section(line:str):
-    line=line.lower().strip()
-    for section,names in SECTION_NAMES.items():
+def detect_section(line: str):
+    line = line.lower().strip()
+    line = line.rstrip(":").strip()
+
+    for section, names in SECTION_NAMES.items():
         for name in names:
-            if name==line:
+            if line == name.lower():
                 return section
+
     return None
 
 def parse_resume(text:str):
@@ -51,20 +54,22 @@ def parse_resume(text:str):
         "achievements":""
     }
     current_section=None
-    lines=text.split("\n")
+    lines=text.splitlines()
     for line in lines:
         section=detect_section(line)
         if section:
             current_section=section
-        elif current_section:
+            continue
+        if current_section:
             resume[current_section]+=line.strip()+"\n"
     return resume
 
 def clean_text(text:str):
-    lines=text.split("\n")
+    lines=text.splitlines()
     cleaned_lines=[]
     for line in lines:
-        if line.strip():
-            cleaned_lines.append(line.strip())
+        line=line.strip()
+        if line:
+            cleaned_lines.append(line)
     return "\n".join(cleaned_lines)
 

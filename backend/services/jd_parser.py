@@ -1,8 +1,8 @@
 from services.skill_extractor import extract_detected_skills
 from services.skill_taxonony import normalize_skills
 
-def clean_jd(text):
-    return text.replace("\n"," ").replace("\r"," ").lower().strip()
+def clean_jd(text: str) -> str:
+    return " ".join(text.split()).lower()
 
 jd_text="""Job Title: Backend Python Developer
 
@@ -23,17 +23,25 @@ Preferred Skills:
 - Redis
 - Kubernetes"""
 
-jd_text=clean_jd(jd_text)
-jd_detected=extract_detected_skills(jd_text)
-
-jd_skills=[]
-for category in jd_detected.values():
-    jd_skills.extend(category)
-
-jd_normalised_skills=normalize_skills(jd_skills)
-
-def get_jd_normalised_skills():
-    return jd_normalised_skills
-
 def get_jd_text():
-    return jd_text
+    return clean_jd(jd_text)
+# jd_detected=extract_detected_skills(jd_text)
+
+# jd_skills=[]
+# for category in jd_detected.values():
+#     jd_skills.extend(category)
+
+# jd_normalised_skills=normalize_skills(jd_skills)
+
+# def get_jd_normalised_skills(text: str):
+#     cleaned_text = clean_jd(text)
+
+#     detected = extract_detected_skills(cleaned_text)
+
+#     skills = []
+
+#     for category_skills in detected.values():
+#         skills.extend(category_skills)
+
+#     return normalize_skills(skills)
+

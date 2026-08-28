@@ -10,16 +10,18 @@ def calculate_skill_score(resume_skills,jd_skills):
 def calculate_semantic_score(similarity):
     return max(0.0, min(float(similarity) * 100, 100.0))
 
-def calculate_section_score(sections):
+def calculate_section_score(resume):
     required=[
         "education",
         "experience",
         "skills",
         "projects"
     ]
-    detected=set(str(s).lower() for s in sections)
-    similar=detected.intersection(required)
-    return (len(similar)/len(required))*100
+    detected=0
+    for section in required:
+        if resume.get(section,"").strip():
+            detected+=1
+    return round(detected/len(required)*100,2)
 
 
 def calculate_project_score(projects):
@@ -38,31 +40,93 @@ def calculate_project_score(projects):
     return 0.0
 
 def calculate_achievement_score(achievements):
-    indicators=[
-        "%",
-        "increased",
-        "decreased",
-        "saved",
-        "achieved"
-    ]
-    text=achievements.lower()
 
-    similar=sum(1 for item in indicators if item in text)
-
-    return min(similar*20.0,100.0)
-
-def calculate_experience_score(experience_text,jd_skills):
-    if not experience_text:
+    if not achievements:
         return 0.0
-    # Implementation for experience score calculation
-    text=experience_text.lower()
 
-    same=sum(1 for item in jd_skills if item in text)
+    text = achievements.lower()
+
+    achievement_types = {
+        "award": [
+            "award",
+            "awarded",
+            "winner",
+            "won",
+            "prize"
+        ],
+
+        "rank": [
+            "rank",
+            "ranked",
+            "1st",
+            "2nd",
+            "3rd",
+            "first place",
+            "second place",
+            "third place"
+        ],
+
+        "competition": [
+            "contest",
+            "competition",
+            "hackathon",
+            "challenge"
+        ],
+
+        "academic": [
+            "gate",
+            "qualified",
+            "cgpa",
+            "distinction",
+            "scholarship"
+        ],
+
+        "coding": [
+            "leetcode",
+            "geeksforgeeks",
+            "solved",
+            "coding problems"
+        ],
+
+        "quantitative": [
+            "%",
+            "increased",
+            "decreased",
+            "improved",
+            "reduced",
+            "saved"
+        ]
+    }
+
+    score = 0
+
+    for keywords in achievement_types.values():
+
+        if any(keyword in text for keyword in keywords):
+            score += 20
+
+    return min(score, 100.0)
+
+def calculate_experience_score(experience_text, jd_skills):
+
+    if not experience_text.strip():
+        return 0.0
 
     if not jd_skills:
         return 50.0
 
-    return min((same/len(jd_skills)*100),100.0)
+    text = experience_text.lower()
+
+    matched = 0
+
+    for skill in jd_skills:
+        if skill.lower() in text:
+            matched += 1
+
+    return round(
+        matched / len(jd_skills) * 100,
+        2
+    )
 
 
 def calculate_ats_score(
@@ -101,7 +165,7 @@ def build_ats_breakdown(
             "score":round(float(semantic_score),2),
             "weight":30
         },
-        "experinece_relevance":{
+        "experience_relevance":{
             "score":round(float(experience_score),2),
             "weight":15
         },
