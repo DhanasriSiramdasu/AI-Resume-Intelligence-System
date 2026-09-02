@@ -1,0 +1,30 @@
+Python
+
+Python is a high-level programming language widely used for backend development,
+automation, data processing, machine learning, and artificial intelligence.
+
+Important Python concepts for backend development include variables, data types,
+functions, classes, modules, exception handling, file handling, and object-oriented
+programming.
+
+For backend development, Python can be used with frameworks such as FastAPI and Flask
+to build REST APIs and web services.
+
+Python backend developers should understand virtual environments, package management
+with pip, dependency management, JSON processing, HTTP requests, and API development.
+
+Python is also commonly used for data processing and machine learning with libraries
+such as NumPy, Pandas, Scikit-learn, and XGBoost.
+
+Recommended learning path:
+
+1. Python fundamentals
+2. Functions and object-oriented programming
+3. Exception handling and file handling
+4. Modules and packages
+5. Virtual environments and pip
+6. REST API development
+7. FastAPI or Flask
+8. Database integration
+9. Testing and debugging
+10. Deployment

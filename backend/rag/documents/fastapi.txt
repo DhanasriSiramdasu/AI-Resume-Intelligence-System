@@ -1,0 +1,10 @@
+FastAPI is a Python web framework used to build APIs.
+
+FastAPI supports REST API development, request validation,
+automatic API documentation and asynchronous programming.
+
+FastAPI applications commonly expose endpoints using HTTP methods
+such as GET, POST, PUT and DELETE.
+
+FastAPI can be deployed using Uvicorn and can be containerized
+using Docker.

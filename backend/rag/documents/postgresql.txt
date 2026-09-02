@@ -1,0 +1,52 @@
+PostgreSQL
+
+PostgreSQL is an open-source relational database management system.
+
+PostgreSQL stores structured data using tables, rows, and columns.
+
+Important PostgreSQL concepts include:
+
+- Databases
+- Tables
+- Rows
+- Columns
+- Primary keys
+- Foreign keys
+- Indexes
+- Constraints
+- SQL queries
+- Transactions
+- Joins
+
+Common SQL operations include:
+
+SELECT
+INSERT
+UPDATE
+DELETE
+
+PostgreSQL supports relationships between tables using primary keys and foreign keys.
+
+Indexes can be used to improve query performance.
+
+PostgreSQL can be integrated with Python backend applications such as FastAPI and Flask.
+
+A backend application can use PostgreSQL to persist users, transactions, application
+data, and other structured information.
+
+Important topics to learn include:
+
+1. SQL fundamentals
+2. Database and table creation
+3. SELECT queries
+4. INSERT, UPDATE and DELETE
+5. WHERE and ORDER BY
+6. GROUP BY
+7. JOIN operations
+8. Primary and foreign keys
+9. Indexing
+10. Transactions
+11. Connecting PostgreSQL with Python
+12. Using PostgreSQL with FastAPI
+
+PostgreSQL is commonly used in production backend systems and cloud applications.

@@ -1,0 +1,48 @@
+MongoDB
+
+MongoDB is a NoSQL document-oriented database.
+
+Instead of storing information primarily in rows and columns, MongoDB stores data as
+documents organized into collections.
+
+MongoDB documents use a JSON-like structure.
+
+Important MongoDB concepts include:
+
+- Databases
+- Collections
+- Documents
+- Fields
+- ObjectId
+- CRUD operations
+- Indexes
+- Aggregation
+- Queries
+
+CRUD operations represent:
+
+Create
+Read
+Update
+Delete
+
+MongoDB can be integrated with Python backend applications and REST APIs.
+
+MongoDB is useful when applications need flexible document structures and rapid
+development.
+
+Important topics to learn include:
+
+1. MongoDB fundamentals
+2. Databases and collections
+3. Documents and fields
+4. CRUD operations
+5. Query operators
+6. Indexes
+7. Aggregation
+8. Data modeling
+9. Python integration
+10. MongoDB with FastAPI
+
+MongoDB is commonly used in web applications, APIs, content management systems,
+real-time applications, and applications with flexible data structures.

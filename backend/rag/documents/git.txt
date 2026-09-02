@@ -1,0 +1,57 @@
+Git
+
+Git is a distributed version control system used to track changes in source code.
+
+Git allows developers to maintain different versions of a project and collaborate
+with other developers.
+
+Important Git concepts include:
+
+- Repository
+- Commit
+- Branch
+- Merge
+- Remote repository
+- Pull
+- Push
+- Clone
+- Pull request
+- Merge conflict
+
+Common Git workflow:
+
+1. Initialize or clone a repository
+2. Create or modify files
+3. Check changes using git status
+4. Stage changes using git add
+5. Create a commit using git commit
+6. Push changes to a remote repository
+
+Git branches allow developers to work on features independently.
+
+GitHub is a platform commonly used for hosting Git repositories and collaborating
+with other developers.
+
+Important commands include:
+
+git clone
+git status
+git add
+git commit
+git push
+git pull
+git branch
+git checkout
+git switch
+git merge
+
+Recommended learning path:
+
+1. Understand repositories
+2. Learn commits
+3. Learn staging
+4. Work with branches
+5. Push code to GitHub
+6. Create pull requests
+7. Resolve merge conflicts
+8. Use Git in team development
