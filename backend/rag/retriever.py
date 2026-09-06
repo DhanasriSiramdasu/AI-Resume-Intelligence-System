@@ -2,7 +2,7 @@ from sentence_transformers import SentenceTransformer
 
 model=SentenceTransformer("all-MiniLM-L6-v2")
 
-def retrieve(query,index,chunks,top_k=3):
+def retrieve(query,index,metadata,chunks,top_k=3):
     query_embedding=model.encode([query])
 
     distances,indices=index.search(
@@ -19,6 +19,7 @@ def retrieve(query,index,chunks,top_k=3):
 
         results.append({
             "text":chunks[index_id],
-            "distance":float(distance)
+            "distance":float(distance),
+            "metadata":metadata[index_id]
         })
     return results
