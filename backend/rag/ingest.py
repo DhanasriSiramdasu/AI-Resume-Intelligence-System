@@ -26,14 +26,24 @@ for document in documents:
     print(document["source"])
 
 
-def chunk_text(text,chunk_size=500,overlap=50):
-    chunks=[]
-    start=0
-
-    while start<len(text):
-        end=start+chunk_size
-        chunks.append(text[start:end])
-        start+=chunk_size-overlap
+def chunk_text(text, chunk_size=500, overlap=50):
+    paragraphs = [
+        p.strip()
+        for p in text.split("\n\n")
+        if p.strip()
+    ]
+    chunks = []
+    current = ""
+    for paragraph in paragraphs:
+        if len(current) + len(paragraph) + 1 <= chunk_size:
+            current += paragraph + "\n\n"
+        else:
+            if current:
+                chunks.append(current.strip())
+            overlap_text = current[-overlap:] if current else ""
+            current = overlap_text + paragraph + "\n\n"
+    if current:
+        chunks.append(current.strip())
     return chunks
 
 
