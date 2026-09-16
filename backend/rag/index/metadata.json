@@ -15,9 +15,6 @@
     "source": "docker.txt"
   },
   {
-    "source": "docker.txt"
-  },
-  {
     "source": "fastapi.txt"
   },
   {

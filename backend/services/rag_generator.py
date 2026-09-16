@@ -19,23 +19,20 @@ def build_context(results):
 
 
 def build_rag_prompt(question,context):
-    prompt=f"""
+    return f"""
 You are a career guidance assistant.
-Answer the users question using the knowledge context below.
-
+Use the retrieved knowledge context as your primary source.
 Rules:
--use the provided context as the main source.
--Do not invent unsupported skills or experience.
--If the context is insufficient ,say so.
--Give practical recommendations.
-
-knowledge context:
+1. Do not invent unsupported skills or experience.
+2. Do not assume the user knows a technology unless stated.
+3. If the retrieved context is insufficient, clearly say so.
+4. Give practical career recommendations.
+5. Keep the answer structured and concise.
+Retrieved Knowledge:
 {context}
-
 User Question:
 {question}
 """
-    return prompt
 
 
 def generate_rag_answer(question,context):
@@ -48,6 +45,13 @@ def generate_rag_answer(question,context):
 
 def ask_rag(question,index,metadata,chunks,top_k=3):
 
+    question = question.strip()
+    if not question:
+        return {
+            "question": question,
+            "answer": "Please enter a career-related question.",
+            "retrieved_chunks": []
+        }
     results=retrieve(question,
                     index,
                     metadata,
