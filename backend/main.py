@@ -7,6 +7,8 @@ import os
 # Resume processing
 from services.pdf_parser import extract_text_from_pdf
 from services.resume_parser import clean_text, parse_resume
+from utils.resume_comparator import compare_scores
+from services.improvement_recommender import generate_improvement_recommendations
 
 # Skills
 from services.skill_extractor import (
@@ -249,6 +251,12 @@ async def upload_resume(
         jd_text
     )
 
+    improvement_recommendations=generate_improvement_recommendations(
+        matched,
+        missing,
+        ats_breakdown
+    )
+
     # --------------------------------------------------------
     # Delete temporary PDF
     # --------------------------------------------------------
@@ -285,7 +293,9 @@ async def upload_resume(
 
         "ats_breakdown": ats_breakdown,
 
-        "llm_recommendations": llm_recommendations
+        "llm_recommendations": llm_recommendations,
+
+        "improvement_recommendations": improvement_recommendations
     }
 
 
@@ -304,4 +314,18 @@ def career_advice(
         metadata,
         all_chunks,
         top_k=3
+    )
+
+# compare resumes
+
+class CompareRequest(BaseModel):
+    old_result:dict
+    new_result:dict
+
+
+@app.post("/compare_resumes")
+def compare_resumes(request:CompareRequest):
+    return compare_scores(
+        request.old_result,
+        request.new_result
     )
