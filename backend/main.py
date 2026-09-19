@@ -9,6 +9,8 @@ from services.pdf_parser import extract_text_from_pdf
 from services.resume_parser import clean_text, parse_resume
 from utils.resume_comparator import compare_scores
 from services.improvement_recommender import generate_improvement_recommendations
+from services.interview_generator import generate_interview_questions
+from schemas import AnalysisResponse
 
 # Skills
 from services.skill_extractor import (
@@ -257,6 +259,11 @@ async def upload_resume(
         ats_breakdown
     )
 
+    interview_questions=generate_interview_questions(
+        matched,
+        missing
+    )
+
     # --------------------------------------------------------
     # Delete temporary PDF
     # --------------------------------------------------------
@@ -267,36 +274,25 @@ async def upload_resume(
     # Return response
     # --------------------------------------------------------
 
-    return {
-        "filename": file.filename,
 
-        "resume_detected_skills": resume_detected_skills,
-
-        "jd_detected_skills": jd_detected_skills,
-
-        "skill_coverage": calculate_skill_coverage(
-            resume_skills,
-            jd_skills
-        ),
-
-        "matched_skills": matched,
-
-        "missing_skills": missing,
-
-        "extra_skills": extra,
-
-        "match_score": match_score,
-
-        "cosine_similarity": cosine_similarity,
-
-        "ats_score": ats_score,
-
-        "ats_breakdown": ats_breakdown,
-
-        "llm_recommendations": llm_recommendations,
-
-        "improvement_recommendations": improvement_recommendations
+    result={
+        "summary":{
+            "ats_score":ats_score,
+            "match_score":match_score,
+            "semantic_similarity":cosine_similarity
+        },
+        "skills":{
+            "matched":matched,
+            "missing":missing,
+            "extra":extra
+        },
+        "ats_breakdown":ats_breakdown,
+        "recommendations":improvement_recommendations,
+        "career_advice":{},
+        "interview_questions":interview_questions
     }
+
+    return result
 
 
 # ============================================================
